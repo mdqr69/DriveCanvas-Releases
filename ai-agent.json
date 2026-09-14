@@ -1,6 +1,6 @@
 {
-  "enabled": false,
+  "enabled": true,
   "schema": "drivecanvas.diagnostic-agent.v3",
-  "endpoint": "",
-  "note": "Runtime AI endpoint is activated only after the server-side OpenAI deployment is verified. No OpenAI API key is ever stored here or in the APK."
+  "endpoint": "https://drivecanvas-ai-agent-proxy.vercel.app/api/diagnose",
+  "note": "Runtime AI endpoint verified with a real OpenAI Responses API round trip. No OpenAI API key is stored here or in the APK."
 }
