@@ -1,6 +1,1 @@
-{
-  "enabled": true,
-  "schema": "drivecanvas.diagnostic-agent.v3",
-  "endpoint": "https://drivecanvas-ai-agent-proxy.vercel.app/api/diagnose",
-  "note": "Runtime AI endpoint verified with a real OpenAI Responses API round trip. No OpenAI API key is stored here or in the APK."
-}
+{"enabled":true,"schema":"drivecanvas.diagnostic-agent.v3","endpoint":"https://drivecanvas-ai-agent-proxy.vercel.app/api/diagnose"}
