@@ -1,1 +1,1 @@
-{"enabled":true,"schema":"drivecanvas.diagnostic-agent.v3","endpoint":"https://drivecanvas-ai-agent-proxy.vercel.app/api/diagnose"}
+{"enabled":true,"schema":"drivecanvas.diagnostic-agent.v4","endpoint":"https://drivecanvas-ai-agent-proxy.vercel.app/api/diagnose"}
