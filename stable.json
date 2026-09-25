@@ -1,11 +1,11 @@
 {
-  "versionCode": 249,
-  "versionName": "7.1.3-rc13",
-  "apkUrl": "https://github.com/mdqr69/DriveCanvas-Releases/releases/download/v7.1.3-rc13/DriveCanvas-7.1.3-rc13.apk",
-  "sha256": "0e85a95f2500b4db8d86ead3407930860c0b6ac9cac045233ea267d7da6bf4bb",
-  "apkSizeBytes": 3039409,
-  "notes": "Passenger projection now replaces the previous app; Cluster and Passenger can each show one app. The screen startup choice is shared across Home, Screens and Wallpapers. Wallpapers is available on the main navigation bar.",
-  "changes": "The required update prompt appears in every main-screen DriveCanvas section. Its Update button downloads and verifies the signed APK in place, then opens Android's installer.",
-  "fixes": "Reduces duplicate Passenger tasks and stale Cluster capture sessions. Preserves background navigation apps used by the HUD. Startup services respect one saved content choice per screen.",
+  "versionCode": 250,
+  "versionName": "7.1.3-rc14",
+  "apkUrl": "https://github.com/mdqr69/DriveCanvas-Releases/releases/download/v7.1.3-rc14/DriveCanvas-7.1.3-rc14.apk",
+  "sha256": "9a85d0d8577e1b45f1d7877b002f0fc7f70fca51714f5fbaf7cc813ad79e908d",
+  "apkSizeBytes": 3040324,
+  "notes": "Stabilizes Maps/Waze HUD guidance during notification changes and reduces background work on the car system while keeping responsive live gauge readings.",
+  "changes": "DriveCanvas checks for a replacement route before clearing HUD guidance. The Live Vehicle Data page gains a Copy battery signal diagnostic button.",
+  "fixes": "Avoids duplicate SOME/IP bursts, throttles routine HUD diagnostic writes, and reads slow BYD vehicle signals every eight seconds. Unknown traction battery SOC remains blank until the car's raw response can be verified.",
   "required": true
 }

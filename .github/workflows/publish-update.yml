@@ -24,7 +24,7 @@ jobs:
           data=json.loads(pathlib.Path('stable.json').read_text())
           version=data['versionName']
           assert re.fullmatch(r'[0-9A-Za-z._-]+',version), 'Invalid version'
-          assert isinstance(data['versionCode'],int) and data['versionCode']>=249
+          assert isinstance(data['versionCode'],int) and data['versionCode']>=250
           assert data['required'] is True, 'The selected rollout is required'
           apk=pathlib.Path('DriveCanvas-'+version+'.apk')
           assert apk.is_file(), 'Release APK missing'
@@ -45,7 +45,7 @@ jobs:
           set -euo pipefail
           if gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
             gh release upload "$RELEASE_TAG" "$RELEASE_APK" stable.json --clobber --repo "$GITHUB_REPOSITORY"
-            gh release edit "$RELEASE_TAG" --latest --notes-file RELEASE_NOTES_RC13.md --repo "$GITHUB_REPOSITORY"
+            gh release edit "$RELEASE_TAG" --latest --notes-file RELEASE_NOTES.md --repo "$GITHUB_REPOSITORY"
           else
-            gh release create "$RELEASE_TAG" "$RELEASE_APK" stable.json --latest --title "DriveCanvas ${RELEASE_TAG#v}" --notes-file RELEASE_NOTES_RC13.md --repo "$GITHUB_REPOSITORY"
+            gh release create "$RELEASE_TAG" "$RELEASE_APK" stable.json --latest --title "DriveCanvas ${RELEASE_TAG#v}" --notes-file RELEASE_NOTES.md --repo "$GITHUB_REPOSITORY"
           fi
