@@ -1,11 +1,11 @@
 {
-  "versionCode": 250,
-  "versionName": "7.1.3-rc14",
-  "apkUrl": "https://github.com/mdqr69/DriveCanvas-Releases/releases/download/v7.1.3-rc14/DriveCanvas-7.1.3-rc14.apk",
-  "sha256": "9a85d0d8577e1b45f1d7877b002f0fc7f70fca51714f5fbaf7cc813ad79e908d",
-  "apkSizeBytes": 3040324,
-  "notes": "Stabilizes Maps/Waze HUD guidance during notification changes and reduces background work on the car system while keeping responsive live gauge readings.",
-  "changes": "DriveCanvas checks for a replacement route before clearing HUD guidance. The Live Vehicle Data page gains a Copy battery signal diagnostic button.",
-  "fixes": "Avoids duplicate SOME/IP bursts, throttles routine HUD diagnostic writes, and reads slow BYD vehicle signals every eight seconds. Unknown traction battery SOC remains blank until the car's raw response can be verified.",
+  "versionCode": 252,
+  "versionName": "7.1.3-rc16",
+  "apkUrl": "https://github.com/mdqr69/DriveCanvas-Releases/releases/download/v7.1.3-rc16/DriveCanvas-7.1.3-rc16.apk",
+  "sha256": "18de9754bf3eff24f02cf35ac12c230d4a1fd588388bcc7c007bc8fa49b09fdc",
+  "apkSizeBytes": 3134610,
+  "notes": "Restores reliable app startup after rc15 and replaces the cockpit preview with unbranded white and gray designs.",
+  "changes": "Adds four separate close-up views for the steering wheel, cluster, main display and passenger display. Keeps the in-page cockpit view short so screen buttons remain visible. Passenger and cluster wallpapers and full cluster app projection receive a brief one-time animation.",
+  "fixes": "The update prompt now offers Download & Install directly and checks from any main app section. The steering preview circles a button during input capture; display artwork loads on demand.",
   "required": true
 }

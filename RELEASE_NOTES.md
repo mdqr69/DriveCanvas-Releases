@@ -1,8 +1,5 @@
-# DriveCanvas 7.1.3-rc14
+# DriveCanvas 7.1.3-rc16
 
-- Checks replacement Maps/Waze notifications before clearing existing HUD guidance, including just before the 6.5-second removal grace period ends.
-- Reduces duplicate SOME/IP sends and routine diagnostic writes while keeping the proven 200 ms HUD heartbeat.
-- Reads slow vehicle data every 8 seconds and reduces idle telemetry to 2 Hz; a visible gauge retains its 25 Hz speed and power updates.
-- Adds **Copy battery signal diagnostic** in Live Vehicle Data. If traction-battery SOC is unavailable, DriveCanvas reports the BYD read response or error without substituting the Android head unit's battery.
+This signed update repairs the rc15 launch path and adds smooth white and gray, unbranded cockpit artwork. The cockpit preview is shorter so screen controls stay visible. Tap it for four distinct close-ups of steering, cluster, main and passenger screens. Steering input capture highlights a button; passenger and cluster wallpaper and full cluster projection display a brief receiving-screen animation. The update prompt offers Download & Install directly across the main app sections. Android still asks the driver to approve APK installation.
 
-HUD continuity and performance still need in-car verification. A raw SOC result is needed to resolve the missing battery percentage on the Leopard 5. The owner may still have to approve Android's system installer.
+The app launch smoke test, Android unit tests, signed release build and signing-certificate comparison passed. Vehicle-specific display timing and the original rc15 crash cause still need on-car confirmation.
