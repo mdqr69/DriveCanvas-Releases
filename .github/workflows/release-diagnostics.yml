@@ -1,0 +1,31 @@
+name: Read failed release diagnostics
+
+on:
+  push:
+    branches: [main]
+    paths: ['.github/release-diagnostics.json']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read failed steps from the requested release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          target=$(python3 -c 'import json; value=json.load(open(".github/release-diagnostics.json"))["run_id"]; assert isinstance(value,int) and value>0; print(value)')
+          gh run view "$target" --repo "$GITHUB_REPOSITORY" --json status,conclusion,jobs,url > release-diagnostics.json
+          gh run view "$target" --repo "$GITHUB_REPOSITORY" --log-failed > release-failure.log
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git checkout -b "release-diagnostics/$target-$GITHUB_RUN_ID"
+          git add release-diagnostics.json release-failure.log
+          git commit -m "Record failed release $target diagnostics"
+          git push origin "HEAD:refs/heads/release-diagnostics/$target-$GITHUB_RUN_ID"
