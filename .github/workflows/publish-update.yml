@@ -6,6 +6,7 @@ on:
     paths:
       - 'stable.json'
       - 'DriveCanvas-*.apk'
+      - 'DriveCanvas-*.apk.zip'
   workflow_dispatch:
 
 permissions:
@@ -20,13 +21,21 @@ jobs:
         id: verify
         run: |
           python3 - <<'PY'
-          import hashlib,json,os,pathlib,re
+          import hashlib,json,os,pathlib,re,zipfile
           data=json.loads(pathlib.Path('stable.json').read_text())
           version=data['versionName']
           assert re.fullmatch(r'[0-9A-Za-z._-]+',version), 'Invalid version'
           assert isinstance(data['versionCode'],int) and data['versionCode']>=250
           assert data['required'] is True, 'The selected rollout is required'
           apk=pathlib.Path('DriveCanvas-'+version+'.apk')
+          archive=pathlib.Path(str(apk)+'.zip')
+          if archive.is_file():
+              with zipfile.ZipFile(archive) as bundle:
+                  assert bundle.namelist()==[apk.name], 'Unexpected archive contents'
+                  assert bundle.getinfo(apk.name).file_size==data['apkSizeBytes'], 'Archive APK size mismatch'
+                  with bundle.open(apk.name) as source, apk.open('wb') as target:
+                      import shutil
+                      shutil.copyfileobj(source,target)
           assert apk.is_file(), 'Release APK missing'
           assert apk.stat().st_size==data['apkSizeBytes'], 'APK size mismatch'
           assert hashlib.sha256(apk.read_bytes()).hexdigest()==data['sha256'], 'APK hash mismatch'
@@ -35,8 +44,31 @@ jobs:
           with open(os.environ['GITHUB_OUTPUT'],'a') as out:
               out.write('tag=v'+version+'\n')
               out.write('apk='+apk.name+'\n')
+          with open(os.environ['GITHUB_ENV'],'a') as out:
+              out.write('VERSION_NAME='+version+'\n')
+              out.write('VERSION_CODE='+str(data['versionCode'])+'\n')
+          PY
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: android-actions/setup-android@v3
+      - run: sdkmanager 'build-tools;34.0.0'
+      - name: Verify the permanent DriveCanvas signing identity
+        id: signature
+        env:
+          RELEASE_APK: ${{ steps.verify.outputs.apk }}
+        run: |
+          "$ANDROID_HOME/build-tools/34.0.0/apksigner" verify --print-certs "$RELEASE_APK" > "$RUNNER_TEMP/certificate.txt"
+          python3 - <<'PY'
+          import json, os, pathlib, re
+          expected=json.loads(pathlib.Path('.github/android-signing-identity.json').read_text())['certificateSha256']
+          actual=re.findall(r'Signer #\d+ certificate SHA-256 digest: (\w+)', (pathlib.Path(os.environ['RUNNER_TEMP'])/'certificate.txt').read_text())
+          assert actual==[expected], 'Signing certificate differs from the existing app'
+          print('Verified DriveCanvas certificate: '+expected)
           PY
       - name: Publish latest update to the public feed
+        id: publish
         env:
           GH_TOKEN: ${{ github.token }}
           RELEASE_TAG: ${{ steps.verify.outputs.tag }}
@@ -49,3 +81,29 @@ jobs:
           else
             gh release create "$RELEASE_TAG" "$RELEASE_APK" stable.json --latest --title "DriveCanvas ${RELEASE_TAG#v}" --notes-file RELEASE_NOTES.md --repo "$GITHUB_REPOSITORY"
           fi
+
+      - name: Verify public update download
+        id: download
+        run: python3 scripts/verify_published_update.py
+      - name: Record publication result
+        if: always()
+        continue-on-error: true
+        env:
+          PUBLICATION_RESULT: ${{ job.status }}
+          SIGNATURE_RESULT: ${{ steps.signature.outcome }}
+          PUBLISH_RESULT: ${{ steps.publish.outcome }}
+          DOWNLOAD_RESULT: ${{ steps.download.outcome }}
+        run: |
+          python3 - <<'PY'
+          import json, os, pathlib
+          result={key:os.environ.get(key,'') for key in ['PUBLICATION_RESULT','SIGNATURE_RESULT','PUBLISH_RESULT','DOWNLOAD_RESULT','GITHUB_SHA']}
+          result['manifest']=json.loads(pathlib.Path('stable.json').read_text())
+          result['runUrl']='https://github.com/'+os.environ['GITHUB_REPOSITORY']+'/actions/runs/'+os.environ['GITHUB_RUN_ID']
+          pathlib.Path('publication-status.json').write_text(json.dumps(result,indent=2)+'\n')
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git checkout -b "publication-status/$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          git add publication-status.json
+          git commit -m "Record Android publication ${VERSION_NAME:-unknown}"
+          git push origin "HEAD:refs/heads/publication-status/$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"

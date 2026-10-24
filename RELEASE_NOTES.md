@@ -1,5 +1,7 @@
-# DriveCanvas 7.1.3-rc16
+# DriveCanvas 7.1.3-rc21
 
-This signed update repairs the rc15 launch path and adds smooth white and gray, unbranded cockpit artwork. The cockpit preview is shorter so screen controls stay visible. Tap it for four distinct close-ups of steering, cluster, main and passenger screens. Steering input capture highlights a button; passenger and cluster wallpaper and full cluster projection display a brief receiving-screen animation. The update prompt offers Download & Install directly across the main app sections. Android still asks the driver to approve APK installation.
+New v33 native layout with fourteen navigation sections, editable Home widgets, refreshed screen controls and a detailed grey Bao 5 / Leopard 5 viewer. Adds full-screen and floating information layouts, music/CarPlay/Android Auto shortcuts, saved split-screen pairs, driving view and navigation-based arrival-energy estimates. Adds configured-location weather, Everyday/Night/Easy Read modes, saved routines, confirmed voice actions and camping energy planning.
 
-The app launch smoke test, Android unit tests, signed release build and signing-certificate comparison passed. Vehicle-specific display timing and the original rc15 crash cause still need on-car confirmation.
+Reduces Home and screen-preview work, moves wallpaper processing off the main thread, improves media-controller selection, telemetry recovery and service cleanup, and preserves saved split pairs. Includes the updated connected v33 review inside the app.
+
+Vehicle-dependent features still require testing on the car: external-screen touch and overlays, sleep/wake restoration, projection receivers, speech providers, live navigation and firmware telemetry. Arrival energy is a battery-only estimate with user-confirmed capacity; unavailable data is labelled. Front Camera/DVR and Cluster Side Layout remain outside the new visible layout.
