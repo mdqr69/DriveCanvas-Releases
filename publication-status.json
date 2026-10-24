@@ -1,0 +1,19 @@
+{
+  "PUBLICATION_RESULT": "failure",
+  "SIGNATURE_RESULT": "skipped",
+  "PUBLISH_RESULT": "skipped",
+  "DOWNLOAD_RESULT": "skipped",
+  "GITHUB_SHA": "cac0757050ecc1762ab5958bee415ff9f12ff4cb",
+  "manifest": {
+    "versionCode": 257,
+    "versionName": "7.1.3-rc21",
+    "apkUrl": "https://github.com/mdqr69/DriveCanvas-Releases/releases/download/v7.1.3-rc21/DriveCanvas-7.1.3-rc21.apk",
+    "sha256": "558134e2b4be98e1f89869a847c6f81f5e8f7c2cca8dc0e0c89a9cac6c7c6bab",
+    "apkSizeBytes": 113387119,
+    "required": true,
+    "notes": "New v33 native layout with fourteen navigation sections, editable Home widgets, refreshed screen controls and a detailed grey Bao 5 / Leopard 5 viewer. Adds full-screen and floating information layouts, music/CarPlay/Android Auto shortcuts, saved split-screen pairs, driving view and navigation-based arrival-energy estimates. Adds configured-location weather, Everyday/Night/Easy Read modes, saved routines, confirmed voice actions and camping energy planning.",
+    "changes": "New v33 native layout with fourteen navigation sections, editable Home widgets, refreshed screen controls and a detailed grey Bao 5 / Leopard 5 viewer. Adds full-screen and floating information layouts, music/CarPlay/Android Auto shortcuts, saved split-screen pairs, driving view and navigation-based arrival-energy estimates. Adds configured-location weather, Everyday/Night/Easy Read modes, saved routines, confirmed voice actions and camping energy planning.",
+    "fixes": "Reduces Home and screen-preview work, moves wallpaper processing off the main thread, improves media-controller selection, telemetry recovery and service cleanup, and preserves saved split pairs. Includes the updated connected v33 review inside the app.\n\nVehicle-dependent features still require testing on the car: external-screen touch and overlays, sleep/wake restoration, projection receivers, speech providers, live navigation and firmware telemetry. Arrival energy is a battery-only estimate with user-confirmed capacity; unavailable data is labelled. Front Camera/DVR and Cluster Side Layout remain outside the new visible layout."
+  },
+  "runUrl": "https://github.com/mdqr69/DriveCanvas-Releases/actions/runs/40090679973"
+}
