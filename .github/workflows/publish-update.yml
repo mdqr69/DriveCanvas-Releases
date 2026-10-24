@@ -7,6 +7,7 @@ on:
       - 'stable.json'
       - 'DriveCanvas-*.apk'
       - 'DriveCanvas-*.apk.zip'
+      - '.github/workflows/publish-update.yml'
   workflow_dispatch:
 
 permissions:
@@ -53,7 +54,8 @@ jobs:
           distribution: temurin
           java-version: '17'
       - uses: android-actions/setup-android@v3
-      - run: sdkmanager 'build-tools;34.0.0'
+        with:
+          packages: 'build-tools;34.0.0'
       - name: Verify the permanent DriveCanvas signing identity
         id: signature
         env:
