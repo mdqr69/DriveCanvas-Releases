@@ -1,13 +1,13 @@
 {
-  "versionName": "7.1.3-rc21-audit2",
+  "versionName": "7.1.3-rc21-audit3",
   "versionCode": 257,
-  "apk": "DriveCanvas-7.1.3-rc21-audit2.apk",
-  "apkSizeBytes": 112285436,
-  "sha256": "85f020a420bf66a4f09456a65301cd967cd7cacbd93816a38177440169c5014f",
+  "apk": "DriveCanvas-7.1.3-rc21-audit3.apk",
+  "apkSizeBytes": 112285435,
+  "sha256": "8fba063dd3e87e4741a3992f5cf22d0111c5814f1e53466267d5e677aeef8e94",
   "certificateSha256": "89c2a7028c4be762385cd4620e1f4f6b6392f75c58a03b22694947359aa94bc3",
-  "apkUrl": "https://github.com/mdqr69/DriveCanvas-Releases/releases/download/v7.1.3-rc21-audit2/DriveCanvas-7.1.3-rc21-audit2.apk",
+  "apkUrl": "https://github.com/mdqr69/DriveCanvas-Releases/releases/download/v7.1.3-rc21-audit3/DriveCanvas-7.1.3-rc21-audit3.apk",
   "androidTests": {
-    "tests": 540,
+    "tests": 548,
     "failures": 0,
     "errors": 0,
     "skipped": 0

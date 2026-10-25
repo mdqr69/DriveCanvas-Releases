@@ -8,6 +8,6 @@ The publisher also accepts `DriveCanvas-<version>.apk.zip` containing exactly th
 
 ## Android test build
 
-[Download DriveCanvas 7.1.3-rc21-audit2 APK](https://github.com/mdqr69/DriveCanvas-Releases/releases/download/v7.1.3-rc21-audit2/DriveCanvas-7.1.3-rc21-audit2.apk) · [Test release and instructions](https://github.com/mdqr69/DriveCanvas-Releases/releases/tag/v7.1.3-rc21-audit2)
+[Download DriveCanvas 7.1.3-rc21-audit3 APK](https://github.com/mdqr69/DriveCanvas-Releases/releases/download/v7.1.3-rc21-audit3/DriveCanvas-7.1.3-rc21-audit3.apk) · [Test release and instructions](https://github.com/mdqr69/DriveCanvas-Releases/releases/tag/v7.1.3-rc21-audit3)
 
 This is a **manual test prerelease**. Install it as an update without uninstalling. The stable in-car update feed does not offer this test build. Find the tester under **More → Run app checks**. Vehicle acceptance and the limitations listed in the test notes remain pending.

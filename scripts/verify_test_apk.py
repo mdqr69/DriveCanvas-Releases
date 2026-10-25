@@ -24,7 +24,7 @@ def verify(root=Path('.')):
     badging=subprocess.check_output([str(sdk/'aapt'),'dump','badging',str(apk)],text=True)
     assert "package: name='com.drivecanvas.app' versionCode='"+str(data['versionCode'])+"' versionName='"+version+"'" in badging
     assert data['apkUrl']=='https://github.com/mdqr69/DriveCanvas-Releases/releases/download/v'+version+'/'+name
-    assert data['androidTests']==dict(tests=540,failures=0,errors=0,skipped=0)
+    assert data['androidTests']==dict(tests=548,failures=0,errors=0,skipped=0)
     assert data['lintErrors']==0
     if os.environ.get('GITHUB_OUTPUT'):
         with open(os.environ['GITHUB_OUTPUT'],'a') as output:output.write('tag=v'+version+'\napk='+str(apk)+'\nnotes='+str(folder/'TEST_NOTES.md')+'\n')
