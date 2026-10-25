@@ -1,0 +1,65 @@
+name: Publish verified Android test prerelease
+on:
+  push:
+    branches: [main]
+    paths:
+      - test-release.json
+      - .github/workflows/publish-test.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: android-actions/setup-android@v3
+        with:
+          packages: 'build-tools;34.0.0'
+      - name: Verify existing test APK and original signing identity
+        id: verify
+        run: python3 scripts/verify_test_apk.py
+      - name: Publish manual test prerelease
+        id: publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TEST_TAG: ${{ steps.verify.outputs.tag }}
+          TEST_APK: ${{ steps.verify.outputs.apk }}
+          TEST_NOTES: ${{ steps.verify.outputs.notes }}
+        run: |
+          set -euo pipefail
+          if gh release view "$TEST_TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release edit "$TEST_TAG" --prerelease --latest=false --notes-file "$TEST_NOTES" --repo "$GITHUB_REPOSITORY"
+            gh release upload "$TEST_TAG" "$TEST_APK" test-release.json "$TEST_NOTES" --clobber --repo "$GITHUB_REPOSITORY"
+          else
+            gh release create "$TEST_TAG" "$TEST_APK" test-release.json "$TEST_NOTES" --prerelease --latest=false --title "DriveCanvas ${TEST_TAG#v} — TEST BUILD" --notes-file "$TEST_NOTES" --repo "$GITHUB_REPOSITORY"
+          fi
+      - name: Verify unauthenticated public download and unchanged stable feed
+        id: download
+        run: python3 scripts/verify_public_test.py
+      - name: Record test publication result
+        if: always()
+        env:
+          VERIFY_RESULT: ${{ steps.verify.outcome }}
+          PUBLISH_RESULT: ${{ steps.publish.outcome }}
+          DOWNLOAD_RESULT: ${{ steps.download.outcome }}
+          PUBLICATION_RESULT: ${{ job.status }}
+        run: |
+          python3 - <<'PY'
+          import json,os,pathlib
+          keys=('VERIFY_RESULT','PUBLISH_RESULT','DOWNLOAD_RESULT','PUBLICATION_RESULT','GITHUB_SHA')
+          result={key:os.environ.get(key,'') for key in keys}
+          result['test']=json.loads(pathlib.Path('test-release.json').read_text())
+          result['runUrl']='https://github.com/'+os.environ['GITHUB_REPOSITORY']+'/actions/runs/'+os.environ['GITHUB_RUN_ID']
+          pathlib.Path('test-publication-status.json').write_text(json.dumps(result,indent=2)+'\n')
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git checkout -b "test-publication-status/$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          git add test-publication-status.json
+          git commit -m "Record signed test APK publication"
+          git push origin "HEAD:refs/heads/test-publication-status/$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
